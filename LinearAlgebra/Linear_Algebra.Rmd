@@ -76,7 +76,7 @@ finding a unit vector in the same direction as a given vector.
 
 2 step process: 
 
-1. find its magnitude: $||\vec{v}|| = \sqrt{v^2_1 + v^2_2 + ... + v^2_n}$
+1. find its magnitude: $||\vec{v}|| = \sqrt{v^2_1 + v^2_2 + \dotsb + v^2_n}$
 2. perform a scalar multiplication: $\vec{v} \times \frac{1}{||\vec{v}||}$ = unit vector in direction of v
 
 Example: normalize $\vec{v} = [-1,1,1]$
@@ -93,8 +93,88 @@ normalize <- function(x) {
   x / magnitude(x)
 }
 v <- c(-1, 1, 1)
-normalize(v)
+normalize(v) 
 
 magnitude(normalize(v))
 ```
+## Inner Products (Dot Products)
 
+Dot product of two vectors is the sum of the 
+product of the corressponding components of both
+vectors
+
+$$ \vec{v} \cdot \vec{w} = v_1w_1 + v_2w_2 + \dotsb + v_nw_n$$
+The angle between two vectors is found through the following method: 
+$$ \theta = arccos\left(\frac {\vec{v} \cdot \vec{w}} {||v|| \cdot||w||}\right) $$
+An interesting result of the above is that we can compare
+the direction of vectors v and w such that if the dot product of v an w equal the product of their magnitudes, then v and w have the same direction. If they are equal ot the negative of the product of their magnitudes, then the angle between both vectors is 180 degrees (opposite direction). 
+
+If the product is 0 and neither vw and w is 0, which means the two vectors are at a right-angle to each other. 
+
+The magnitude of v is the square root of v times v. 
+
+### Implementation 
+
+```{r}
+# Implement dot product & angle 
+dot_product <- function(x,y,...) {
+  sum(x * y)
+  # Alternatively, x %*% y
+}
+
+theta <- function(x, y) {
+  acos((dot_product(x,y)) / (magnitude(x) * magnitude(y)))
+}
+
+v <- c(1,5,7) 
+w <- c(2,3,0)
+dot_product(v, w)
+theta(v, w)
+```
+### Quiz 
+
+```{r}
+dot_product(c(7.887, 4.138), c(-8.802, 6.776))
+c(-5.955, -4.904, -1.874) %*% c(-4.496, -8.755, 7.103)
+
+theta(c(3.183, -7.627), c(-2.668, 5.319)) 
+theta(c(7.35, 0.221, 5.188), c(2.751, 8.259, 3.985)) * 180/pi
+```
+## Parallel and Orthogoanal Vectors
+
+$\vec{v}$ and $\vec{w}$ are parallel if one is a scalar multiple of another.
+
+$\vec{v}$ and $-2\vec{w}$ are thus parallel
+
+$\vec{v}$ and $\vec{w}$ are orthogonal if their dot product is 0. 
+
+$\vec{0}$ is parallel and orthogonal to all vectors, and  the only vector 
+that is orthogonal to itself 
+
+### Quiz
+
+Check for parallelism and orthogonality
+
+```{r}
+is_parallel <- function(x, y) {
+  # All equal alllows for small differences between numbers
+  # Absolute is taken to allow for parallel but opposite direction
+  all.equal(abs(normalize(x)), abs(normalize(y)))
+}
+is_parallel(c(-7.579, -7.88), c(22.737, 23.64))
+is_parallel(c(-2.029, 9.97, 4.172), c(-9.231, -6.639, -7.245))
+is_parallel(c(-2.328, -7.284, -1.214), c(-1.821, 1.072, -2.94))
+is_parallel(c(2.118, 4.827), c(0,0))
+
+all.equal(dot_product(c(-7.579, -7.88), c(22.737, 23.64)), 0)
+all.equal(dot_product(c(-2.029, 9.97, 4.172), c(-9.231, -6.639, -7.245)), 0)
+all.equal(dot_product(c(-2.328, -7.284, -1.214), c(-1.821, 1.072, -2.94)), 0)
+all.equal(dot_product(c(2.118, 4.827), c(0,0)), 0)
+```
+## Projection 
+
+v = v(||) + v(perp)
+
+Computing projb(v): 
+Assume theta < 90 degrees
+Length of |v(parl)| = v dotporudct u

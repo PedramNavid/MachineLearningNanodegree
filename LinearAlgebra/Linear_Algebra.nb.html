@@ -258,7 +258,7 @@ c(7.119, 8.215) - c(-8.223, 0.878)
 <p>Normalization is the process of finding a unit vector in the same direction as a given vector.</p>
 <p>2 step process:</p>
 <ol style="list-style-type: decimal">
-<li>find its magnitude: <span class="math inline">\(||\vec{v}|| = \sqrt{v^2_1 + v^2_2 + ... + v^2_n}\)</span></li>
+<li>find its magnitude: <span class="math inline">\(||\vec{v}|| = \sqrt{v^2_1 + v^2_2 + \dotsb + v^2_n}\)</span></li>
 <li>perform a scalar multiplication: <span class="math inline">\(\vec{v} \times \frac{1}{||\vec{v}||}\)</span> = unit vector in direction of v</li>
 </ol>
 <p>Example: normalize <span class="math inline">\(\vec{v} = [-1,1,1]\)</span></p>
@@ -274,11 +274,87 @@ c(7.119, 8.215) - c(-8.223, 0.878)
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="inner-products-dot-products" class="section level2">
+<h2>Inner Products (Dot Products)</h2>
+<p>Dot product of two vectors is the sum of the product of the corressponding components of both vectors</p>
+<p><span class="math display">\[ \vec{v} \cdot \vec{w} = v_1w_1 + v_2w_2 + \dotsb + v_nw_n\]</span> The angle between two vectors is found through the following method: <span class="math display">\[ \theta = arccos\left(\frac {\vec{v} \cdot \vec{w}} {||v|| \cdot||w||}\right) \]</span> An interesting result of the above is that we can compare the direction of vectors v and w such that if the dot product of v an w equal the product of their magnitudes, then v and w have the same direction. If they are equal ot the negative of the product of their magnitudes, then the angle between both vectors is 180 degrees (opposite direction).</p>
+<p>If the product is 0 and neither vw and w is 0, which means the two vectors are at a right-angle to each other.</p>
+<p>The magnitude of v is the square root of v times v.</p>
+<div id="implementation" class="section level3">
+<h3>Implementation</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBJbXBsZW1lbnQgZG90IHByb2R1Y3QgJiBhbmdsZSBcbmRvdF9wcm9kdWN0IDwtIGZ1bmN0aW9uKHgseSkge1xuICBzdW0oeCAqIHkpXG59XG50aGV0YSA8LSBmdW5jdGlvbih4LCB5KSB7XG4gIGFjb3MoKGRvdF9wcm9kdWN0KHgseSkpIC8gKG1hZ25pdHVkZSh4KSAqIG1hZ25pdHVkZSh5KSkpXG59XG52IDwtIGMoMSw1LDcpIFxudyA8LSBjKDIsMywwKVxuZG90X3Byb2R1Y3QodiwgdylcbmBgYCJ9 -->
+<pre class="r"><code># Implement dot product &amp; angle 
+dot_product &lt;- function(x,y) {
+  sum(x * y)
+}
+theta &lt;- function(x, y) {
+  acos((dot_product(x,y)) / (magnitude(x) * magnitude(y)))
+}
+v &lt;- c(1,5,7) 
+w &lt;- c(2,3,0)
+dot_product(v, w)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDE3XG4ifQ== -->
+<pre><code>[1] 17</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGhldGEodiwgdylcbmBgYCJ9 -->
+<pre class="r"><code>theta(v, w)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuOTk1MDgwMVxuIn0= -->
+<pre><code>[1] 0.9950801</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="quiz" class="section level3">
+<h3>Quiz</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGhldGEoYyg3LjM1LCAwLjIyMSwgNS4xODgpLCBjKDIuNzUxLCA4LjI1OSwgMy45ODUpKSAqIDE4MC9waVxuXG5gYGAifQ== -->
+<pre class="r"><code>theta(c(7.35, 0.221, 5.188), c(2.751, 8.259, 3.985)) * 180/pi
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDYwLjI3NTgxXG4ifQ== -->
+<pre><code>[1] 60.27581</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="parallel-and-orthogoanal-vectors" class="section level2">
+<h2>Parallel and Orthogoanal Vectors</h2>
+<p><span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(\vec{w}\)</span> are parallel if one is a scalar multiple of another.</p>
+<p><span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(-2\vec{w}\)</span> are thus parallel</p>
+<p><span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(\vec{w}\)</span> are orthogonal if their dot product is 0.</p>
+<p><span class="math inline">\(\vec{0}\)</span> is parallel and orthogonal to all vectors, and the only vector that is orthogonal to itself</p>
+<div id="quiz-1" class="section level3">
+<h3>Quiz</h3>
+<p>Check for parallelism and orthogonality</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWxsLmVxdWFsKGRvdF9wcm9kdWN0KGMoMi4xMTgsIDQuODI3KSwgYygwLDApKSwgMClcblxuYGBgIn0= -->
+<pre class="r"><code>all.equal(dot_product(c(2.118, 4.827), c(0,0)), 0)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="projection" class="section level2">
+<h2>Projection</h2>
+<p>v = v(||) + v(perp)</p>
+<p>Computing projb(v): Assume theta &lt; 90 degrees Length of |v(parl)| = v dotporudct u</p>
 <!-- rnb-text-end -->
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTGluZWFyIEFsZ2VicmEiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMgTm90ZWJvb2sgZm9yIExpbmVhciBBbGdlYnJhIGNvdXJzZSBvbiBVZGFjaXR5CgojIyBQb2ludHMgYW5kIFZlY3RvcnMKCiogUG9pbnRzOiByZXByZXNlbnQgbG9jYXRpb24sIHdyaXR0ZW4gYXMgKHgseSx6LCAuLi4pCisgQ2FydGVzaWFuIGNvb3JkaW5hdGU6IHN0YW5kYXJkIDItZGltZW5zaW9uYWwgCgoqIFZlY3RvcjogcmVwcmVzZW50IGNoYW5nZSBpbiBsb2NhdGlvbiwgcHJvcGVydGllcyBpbmNsdWRlIAptYWduaXR1ZGUgYW5kIGRpcmVjdGlvbiwgd3JpdHRlbiBhcyBbMiw0XQoKIyBWZWN0b3IgTW9kdWxlCgojIyBPcGVyYXRpbmcgb24gVmVjdG9ycwoKSW4gUHl0aG9uLCB3ZSBjYW4gY3JlYXRlIHZlY3RvciBvYmplY3RzIHRvIG9wZXJhdGUgb24gCnZlY3RvcnMsIGhvd2V2ZXIsIFIgaGFuZGxlcyB0aGlzIG11Y2ggbW9yZSBuYXR1cmFsbHkuCgpgYGB7cn0KbXlfdmVjdG9yIDwtIGMoMSwyLDMpCm15X3ZlY3RvcjIgPC0gYygxLDIsMykKbXlfdmVjdG9yMyA8LSBjKC0xLDIsMykKCnByaW50KG15X3ZlY3RvciA9PSBteV92ZWN0b3IyKQpwcmludChteV92ZWN0b3IgPT0gbXlfdmVjdG9yMykKYGBgCgpBZGRpdGlvbiBjYW4gYmUgYWNjb21wbGlzaGVkIHVzaW5nICsgb3BlcmF0b3IKYGBge3J9CnggPC0gYygxLDIpCnkgPC0gYyg0LDMpCgp4ICsgeQpgYGAKClN1YnRyYWN0aW9uIGlzIHNpbWlsYXIKCmBgYHtyfQp4IDwtIGMoMSwzKQp5IDwtIGMoNSwxKQp4IC0geQp5IC0geApgYGAKClNjYWxhciBNdWx0aXBsaWNhdGlvbiBzY2FsZXMgdGhlIHNpemUgb2YgYSB2ZWN0b3IuIAoKYGBge3J9CjIgKiBjKDEsMikKCi0xLzIgKiBjKDMsMiwxKQpgYGAKClNjYWxhciBRdWl6CgpgYGB7cn0KYyg4LjIxOCwgLTkuMzQxKSArIGMoLTEuMTI5LCAyLjExMSkgCmMoNy4xMTksIDguMjE1KSAtIGMoLTguMjIzLCAwLjg3OCkKNy40MSAqIGMoMS42NzEsIC0xLjAxMiwgLTAuMzE4KQpgYGAKCgojIyBNYWduaXR1ZGUgYW5kIERpcmVjdGlvbgoKTWFnbml0dWRlIGlzIHRoZSBzcXVhcmUgcm9vdCBvZiB0aGUgc3VtIG9mIHRoZSBzcXVhcmUgb2YgYQp2ZWN0b3JzIGNvb3JkaW5hdGVzLgoKVG8gZGVmaW5lIGEgZGlyZWN0aW9uIG9mIGEgdmVjdG9yLCBhIHZlY3RvciBvZiBtYWduaXR1ZGUKMSBpcyB1c2VkICh1bml0LXZlY3RvcikuIAoKTm9ybWFsaXphdGlvbiBpcyB0aGUgcHJvY2VzcyBvZiAKZmluZGluZyBhIHVuaXQgdmVjdG9yIGluIHRoZSBzYW1lIGRpcmVjdGlvbiBhcyBhIGdpdmVuIHZlY3Rvci4KCjIgc3RlcCBwcm9jZXNzOiAKCjEuIGZpbmQgaXRzIG1hZ25pdHVkZTogJHx8XHZlY3t2fXx8ID0gXHNxcnR7dl4yXzEgKyB2XjJfMiArIC4uLiArIHZeMl9ufSQKMi4gcGVyZm9ybSBhIHNjYWxhciBtdWx0aXBsaWNhdGlvbjogJFx2ZWN7dn0gXHRpbWVzIFxmcmFjezF9e3x8XHZlY3t2fXx8fSQgPSB1bml0IHZlY3RvciBpbiBkaXJlY3Rpb24gb2YgdgoKRXhhbXBsZTogbm9ybWFsaXplICRcdmVje3Z9ID0gWy0xLDEsMV0kCgpBbnN3ZXI6IAokJCB8fFx2ZWN7dn18fCA9IFxzcXJ0eygtMV4yKSArIDFeMiArIDFeMn09IFxzcXJ0MyAkJAokJCBbLTEsIDEsIDFdIFx0aW1lcyBcZnJhY3sxfXtcc3FydHszfX0gPSBbXGZyYWN7LTF9e1xzcXJ0KDMpfSwgXGZyYWN7MX17XHNxcnQoMyl9LCBcZnJhY3sxfXtcc3FydCgzKX1dICQkCkluIFI6IApgYGB7cn0KbWFnbml0dWRlIDwtIGZ1bmN0aW9uKHgpIHsKICBzcXJ0KHN1bSh4XjIpKQp9Cm5vcm1hbGl6ZSA8LSBmdW5jdGlvbih4KSB7CiAgeCAvIG1hZ25pdHVkZSh4KQp9CnYgPC0gYygtMSwgMSwgMSkKbm9ybWFsaXplKHYpCgptYWduaXR1ZGUobm9ybWFsaXplKHYpKQpgYGAKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTGluZWFyIEFsZ2VicmEiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMgTm90ZWJvb2sgZm9yIExpbmVhciBBbGdlYnJhIGNvdXJzZSBvbiBVZGFjaXR5CgojIyBQb2ludHMgYW5kIFZlY3RvcnMKCiogUG9pbnRzOiByZXByZXNlbnQgbG9jYXRpb24sIHdyaXR0ZW4gYXMgKHgseSx6LCAuLi4pCisgQ2FydGVzaWFuIGNvb3JkaW5hdGU6IHN0YW5kYXJkIDItZGltZW5zaW9uYWwgCgoqIFZlY3RvcjogcmVwcmVzZW50IGNoYW5nZSBpbiBsb2NhdGlvbiwgcHJvcGVydGllcyBpbmNsdWRlIAptYWduaXR1ZGUgYW5kIGRpcmVjdGlvbiwgd3JpdHRlbiBhcyBbMiw0XQoKIyBWZWN0b3IgTW9kdWxlCgojIyBPcGVyYXRpbmcgb24gVmVjdG9ycwoKSW4gUHl0aG9uLCB3ZSBjYW4gY3JlYXRlIHZlY3RvciBvYmplY3RzIHRvIG9wZXJhdGUgb24gCnZlY3RvcnMsIGhvd2V2ZXIsIFIgaGFuZGxlcyB0aGlzIG11Y2ggbW9yZSBuYXR1cmFsbHkuCgpgYGB7cn0KbXlfdmVjdG9yIDwtIGMoMSwyLDMpCm15X3ZlY3RvcjIgPC0gYygxLDIsMykKbXlfdmVjdG9yMyA8LSBjKC0xLDIsMykKCnByaW50KG15X3ZlY3RvciA9PSBteV92ZWN0b3IyKQpwcmludChteV92ZWN0b3IgPT0gbXlfdmVjdG9yMykKYGBgCgpBZGRpdGlvbiBjYW4gYmUgYWNjb21wbGlzaGVkIHVzaW5nICsgb3BlcmF0b3IKYGBge3J9CnggPC0gYygxLDIpCnkgPC0gYyg0LDMpCgp4ICsgeQpgYGAKClN1YnRyYWN0aW9uIGlzIHNpbWlsYXIKCmBgYHtyfQp4IDwtIGMoMSwzKQp5IDwtIGMoNSwxKQp4IC0geQp5IC0geApgYGAKClNjYWxhciBNdWx0aXBsaWNhdGlvbiBzY2FsZXMgdGhlIHNpemUgb2YgYSB2ZWN0b3IuIAoKYGBge3J9CjIgKiBjKDEsMikKCi0xLzIgKiBjKDMsMiwxKQpgYGAKClNjYWxhciBRdWl6CgpgYGB7cn0KYyg4LjIxOCwgLTkuMzQxKSArIGMoLTEuMTI5LCAyLjExMSkgCmMoNy4xMTksIDguMjE1KSAtIGMoLTguMjIzLCAwLjg3OCkKNy40MSAqIGMoMS42NzEsIC0xLjAxMiwgLTAuMzE4KQpgYGAKCgojIyBNYWduaXR1ZGUgYW5kIERpcmVjdGlvbgoKTWFnbml0dWRlIGlzIHRoZSBzcXVhcmUgcm9vdCBvZiB0aGUgc3VtIG9mIHRoZSBzcXVhcmUgb2YgYQp2ZWN0b3JzIGNvb3JkaW5hdGVzLgoKVG8gZGVmaW5lIGEgZGlyZWN0aW9uIG9mIGEgdmVjdG9yLCBhIHZlY3RvciBvZiBtYWduaXR1ZGUKMSBpcyB1c2VkICh1bml0LXZlY3RvcikuIAoKTm9ybWFsaXphdGlvbiBpcyB0aGUgcHJvY2VzcyBvZiAKZmluZGluZyBhIHVuaXQgdmVjdG9yIGluIHRoZSBzYW1lIGRpcmVjdGlvbiBhcyBhIGdpdmVuIHZlY3Rvci4KCjIgc3RlcCBwcm9jZXNzOiAKCjEuIGZpbmQgaXRzIG1hZ25pdHVkZTogJHx8XHZlY3t2fXx8ID0gXHNxcnR7dl4yXzEgKyB2XjJfMiArIFxkb3RzYiArIHZeMl9ufSQKMi4gcGVyZm9ybSBhIHNjYWxhciBtdWx0aXBsaWNhdGlvbjogJFx2ZWN7dn0gXHRpbWVzIFxmcmFjezF9e3x8XHZlY3t2fXx8fSQgPSB1bml0IHZlY3RvciBpbiBkaXJlY3Rpb24gb2YgdgoKRXhhbXBsZTogbm9ybWFsaXplICRcdmVje3Z9ID0gWy0xLDEsMV0kCgpBbnN3ZXI6IAokJCB8fFx2ZWN7dn18fCA9IFxzcXJ0eygtMV4yKSArIDFeMiArIDFeMn09IFxzcXJ0MyAkJAokJCBbLTEsIDEsIDFdIFx0aW1lcyBcZnJhY3sxfXtcc3FydHszfX0gPSBbXGZyYWN7LTF9e1xzcXJ0KDMpfSwgXGZyYWN7MX17XHNxcnQoMyl9LCBcZnJhY3sxfXtcc3FydCgzKX1dICQkCkluIFI6IApgYGB7cn0KbWFnbml0dWRlIDwtIGZ1bmN0aW9uKHgpIHsKICBzcXJ0KHN1bSh4XjIpKQp9Cm5vcm1hbGl6ZSA8LSBmdW5jdGlvbih4KSB7CiAgeCAvIG1hZ25pdHVkZSh4KQp9CnYgPC0gYygtMSwgMSwgMSkKbm9ybWFsaXplKHYpIAoKbWFnbml0dWRlKG5vcm1hbGl6ZSh2KSkKYGBgCiMjIElubmVyIFByb2R1Y3RzIChEb3QgUHJvZHVjdHMpCgpEb3QgcHJvZHVjdCBvZiB0d28gdmVjdG9ycyBpcyB0aGUgc3VtIG9mIHRoZSAKcHJvZHVjdCBvZiB0aGUgY29ycmVzc3BvbmRpbmcgY29tcG9uZW50cyBvZiBib3RoCnZlY3RvcnMKCiQkIFx2ZWN7dn0gXGNkb3QgXHZlY3t3fSA9IHZfMXdfMSArIHZfMndfMiArIFxkb3RzYiArIHZfbndfbiQkClRoZSBhbmdsZSBiZXR3ZWVuIHR3byB2ZWN0b3JzIGlzIGZvdW5kIHRocm91Z2ggdGhlIGZvbGxvd2luZyBtZXRob2Q6IAokJCBcdGhldGEgPSBhcmNjb3NcbGVmdChcZnJhYyB7XHZlY3t2fSBcY2RvdCBcdmVje3d9fSB7fHx2fHwgXGNkb3R8fHd8fH1ccmlnaHQpICQkCkFuIGludGVyZXN0aW5nIHJlc3VsdCBvZiB0aGUgYWJvdmUgaXMgdGhhdCB3ZSBjYW4gY29tcGFyZQp0aGUgZGlyZWN0aW9uIG9mIHZlY3RvcnMgdiBhbmQgdyBzdWNoIHRoYXQgaWYgdGhlIGRvdCBwcm9kdWN0IG9mIHYgYW4gdyBlcXVhbCB0aGUgcHJvZHVjdCBvZiB0aGVpciBtYWduaXR1ZGVzLCB0aGVuIHYgYW5kIHcgaGF2ZSB0aGUgc2FtZSBkaXJlY3Rpb24uIElmIHRoZXkgYXJlIGVxdWFsIG90IHRoZSBuZWdhdGl2ZSBvZiB0aGUgcHJvZHVjdCBvZiB0aGVpciBtYWduaXR1ZGVzLCB0aGVuIHRoZSBhbmdsZSBiZXR3ZWVuIGJvdGggdmVjdG9ycyBpcyAxODAgZGVncmVlcyAob3Bwb3NpdGUgZGlyZWN0aW9uKS4gCgpJZiB0aGUgcHJvZHVjdCBpcyAwIGFuZCBuZWl0aGVyIHZ3IGFuZCB3IGlzIDAsIHdoaWNoIG1lYW5zIHRoZSB0d28gdmVjdG9ycyBhcmUgYXQgYSByaWdodC1hbmdsZSB0byBlYWNoIG90aGVyLiAKClRoZSBtYWduaXR1ZGUgb2YgdiBpcyB0aGUgc3F1YXJlIHJvb3Qgb2YgdiB0aW1lcyB2LiAKCiMjIyBJbXBsZW1lbnRhdGlvbiAKCmBgYHtyfQojIEltcGxlbWVudCBkb3QgcHJvZHVjdCAmIGFuZ2xlIApkb3RfcHJvZHVjdCA8LSBmdW5jdGlvbih4LHksLi4uKSB7CiAgc3VtKHggKiB5KQogICMgQWx0ZXJuYXRpdmVseSwgeCAlKiUgeQp9Cgp0aGV0YSA8LSBmdW5jdGlvbih4LCB5KSB7CiAgYWNvcygoZG90X3Byb2R1Y3QoeCx5KSkgLyAobWFnbml0dWRlKHgpICogbWFnbml0dWRlKHkpKSkKfQoKdiA8LSBjKDEsNSw3KSAKdyA8LSBjKDIsMywwKQpkb3RfcHJvZHVjdCh2LCB3KQp0aGV0YSh2LCB3KQpgYGAKIyMjIFF1aXogCgpgYGB7cn0KZG90X3Byb2R1Y3QoYyg3Ljg4NywgNC4xMzgpLCBjKC04LjgwMiwgNi43NzYpKQpjKC01Ljk1NSwgLTQuOTA0LCAtMS44NzQpICUqJSBjKC00LjQ5NiwgLTguNzU1LCA3LjEwMykKCnRoZXRhKGMoMy4xODMsIC03LjYyNyksIGMoLTIuNjY4LCA1LjMxOSkpIAp0aGV0YShjKDcuMzUsIDAuMjIxLCA1LjE4OCksIGMoMi43NTEsIDguMjU5LCAzLjk4NSkpICogMTgwL3BpCmBgYAojIyBQYXJhbGxlbCBhbmQgT3J0aG9nb2FuYWwgVmVjdG9ycwoKJFx2ZWN7dn0kIGFuZCAkXHZlY3t3fSQgYXJlIHBhcmFsbGVsIGlmIG9uZSBpcyBhIHNjYWxhciBtdWx0aXBsZSBvZiBhbm90aGVyLgoKJFx2ZWN7dn0kIGFuZCAkLTJcdmVje3d9JCBhcmUgdGh1cyBwYXJhbGxlbAoKJFx2ZWN7dn0kIGFuZCAkXHZlY3t3fSQgYXJlIG9ydGhvZ29uYWwgaWYgdGhlaXIgZG90IHByb2R1Y3QgaXMgMC4gCgokXHZlY3swfSQgaXMgcGFyYWxsZWwgYW5kIG9ydGhvZ29uYWwgdG8gYWxsIHZlY3RvcnMsIGFuZCAgdGhlIG9ubHkgdmVjdG9yIAp0aGF0IGlzIG9ydGhvZ29uYWwgdG8gaXRzZWxmIAoKIyMjIFF1aXoKCkNoZWNrIGZvciBwYXJhbGxlbGlzbSBhbmQgb3J0aG9nb25hbGl0eQoKYGBge3J9CmlzX3BhcmFsbGVsIDwtIGZ1bmN0aW9uKHgsIHkpIHsKICAjIEFsbCBlcXVhbCBhbGxsb3dzIGZvciBzbWFsbCBkaWZmZXJlbmNlcyBiZXR3ZWVuIG51bWJlcnMKICAjIEFic29sdXRlIGlzIHRha2VuIHRvIGFsbG93IGZvciBwYXJhbGxlbCBidXQgb3Bwb3NpdGUgZGlyZWN0aW9uCiAgYWxsLmVxdWFsKGFicyhub3JtYWxpemUoeCkpLCBhYnMobm9ybWFsaXplKHkpKSkKfQppc19wYXJhbGxlbChjKC03LjU3OSwgLTcuODgpLCBjKDIyLjczNywgMjMuNjQpKQppc19wYXJhbGxlbChjKC0yLjAyOSwgOS45NywgNC4xNzIpLCBjKC05LjIzMSwgLTYuNjM5LCAtNy4yNDUpKQppc19wYXJhbGxlbChjKC0yLjMyOCwgLTcuMjg0LCAtMS4yMTQpLCBjKC0xLjgyMSwgMS4wNzIsIC0yLjk0KSkKaXNfcGFyYWxsZWwoYygyLjExOCwgNC44MjcpLCBjKDAsMCkpCgphbGwuZXF1YWwoZG90X3Byb2R1Y3QoYygtNy41NzksIC03Ljg4KSwgYygyMi43MzcsIDIzLjY0KSksIDApCmFsbC5lcXVhbChkb3RfcHJvZHVjdChjKC0yLjAyOSwgOS45NywgNC4xNzIpLCBjKC05LjIzMSwgLTYuNjM5LCAtNy4yNDUpKSwgMCkKYWxsLmVxdWFsKGRvdF9wcm9kdWN0KGMoLTIuMzI4LCAtNy4yODQsIC0xLjIxNCksIGMoLTEuODIxLCAxLjA3MiwgLTIuOTQpKSwgMCkKYWxsLmVxdWFsKGRvdF9wcm9kdWN0KGMoMi4xMTgsIDQuODI3KSwgYygwLDApKSwgMCkKYGBgCiMjIFByb2plY3Rpb24gCgp2ID0gdih8fCkgKyB2KHBlcnApCgpDb21wdXRpbmcgcHJvamIodik6IApBc3N1bWUgdGhldGEgPCA5MCBkZWdyZWVzCkxlbmd0aCBvZiB8dihwYXJsKXwgPSB2IGRvdHBvcnVkY3QgdQo=</div>
 
 
 
