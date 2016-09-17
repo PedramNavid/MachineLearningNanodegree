@@ -173,8 +173,39 @@ all.equal(dot_product(c(2.118, 4.827), c(0,0)), 0)
 ```
 ## Projection 
 
-v = v(||) + v(perp)
+Orthogonality allows us to decompose objects into combinations of simpler objects in a structured way.
 
-Computing projb(v): 
-Assume theta < 90 degrees
-Length of |v(parl)| = v dotporudct u
+$proj_\vec{b}$ or $v^\parallel$
+
+Component of $\vec{v}$ orthogonal to $\vec{b}$ is $\vec{v}^\perp$
+
+$\vec{v} = \vec{v}^\parallel + \vec{v}^\perp$
+
+Computing $proj_\vec{b}$: $||\vec{v}^\parallel|| = \vec{v}\cdot\vec{u}_\vec{b}$ where $\vec{u}_\vec{b}$ is the unit-vector of $\vec{b}$. 
+
+$||\vec{v}^\parallel||\vec{u}_\vec{b} = \vec{v}^\parallel$
+
+### Implementation
+
+```{r}
+projection <- function(x, y) {
+  u = normalize(y)
+  dot_product(x, u) * u
+}
+
+projection(c(3.039, 1.879), c(0.825, 2.036))
+
+v <- c(-9.88, -3.264, -8.159)
+b <- c(-2.155, -9.353, -9.473)
+
+
+vperp <- v - projection(v,b)
+vperp
+
+v <- c(3.009, -6.172, 3.692, -2.51)
+b <- c(6.404, -9.144, 2.759, 8.718)
+
+
+
+
+```
