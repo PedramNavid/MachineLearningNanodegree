@@ -1,0 +1,54 @@
+---
+title: "Lesson 2: Getting Started: From AI to ML "
+output: html_notebook
+---
+
+## AI Problems 
+
+5 Conundrums
+
+1. Intelligent agents have limited resource
+2. Computation is local, but problems have global constraints
+3. Logic is deductive, but many AI problems are abductive/inductive
+4. The world is dynamic, but knowledge is limited. AI begins with what
+it already knows, so how can it address new problems?
+5. How can AI explain or justify decisions? 
+
+AI Problems
+
+1. Knowledge often arrives incrementally
+2. Problems exhibit recurring patterns
+3. Problems have multiple levels of granularity
+4. Problems are computationally intractable
+5. World is dynamic, but knowledge is static
+6. World is opened-ended. 
+
+Another View:
+
+AI = What to do when you don't know what to do? (AI as 
+uncertainty management)
+
+Reasons: sensor limits, adversaries, stochastic environments,
+laziness, ignorance
+
+## Watson and Knowledge Based AI
+
+- Reasoning: making decisions, understanding through learning/memory
+- Learning: learn from right/wrong answers to motivate future decisions
+- Memory: remember knowledge from learning, provide knowledge to reasoning
+
+## Four Schools of AI
+
+thinking vs. acting and optimal vs. human-like agents. 
+machine learning: optimal thinking
+airplane autopilot: optimal acting
+improvisational robots: human acting
+semantic web: thinking like humans
+
+
+
+
+
+
+
+
