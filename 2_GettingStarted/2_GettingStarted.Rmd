@@ -45,10 +45,51 @@ airplane autopilot: optimal acting
 improvisational robots: human acting
 semantic web: thinking like humans
 
+## Bayes Rule Intro
+
+$P (A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$
+
+POSTERIOR = LIKELIHOOD * PRIOR / MARGINAL LIKELIHOOD
+
+We know about B, but care about variable A. 
+The diagnostic (posterior) reasoning from evidence to casues 
+uses Bayes rule into causal rule, given hyopthethically we
+knew the cause, what is the probability of the evidence
+observed, multiplied by the prior of the cause in the
+first place, divded by the probably of the evidence. 
+
+$P(B) = \sum_{a} P(B|A=a)P(A=a)$
+
+(A) = Cancer
+(B) = Test
+
+A is observable, but B is not. 
+
+Bayes Network is composted of (A) --> (B)
+
+We know: P(A) - having cancer, and P(B|A) 
+Diagnostic reasoning: P(A|B)
+
+Three parameters required: P(A) 
+
+## Definitions
+
+### Taxonomy
+
+- What? parameters, strucutre, hidden concepts
+- What form? supervied, unsupervied, reinforcement
+- What for? prediction, siganostics, summarization
+- How? passive, active, online, offline
+- Outputs? classification, regression
+- Details? Generative, descriminative
 
 
+### Linear Regression
 
+Loss function: residual error after fitting linear function
 
+$\sum_j(y_j - w_1x_j-W_o)^2$
 
+w* = argmin(?) Loss w
 
 
