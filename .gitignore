@@ -32,3 +32,7 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .Rproj.user
+
+# Machine Learning Project Files from Udacity
+/machine-learning
+/machine-learning/
