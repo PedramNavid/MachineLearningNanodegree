@@ -1,0 +1,137 @@
+---
+title: "Titanic Visualizations"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+This is an R Notebook that uses R to analyze Titanic data from the Udacity
+Machine Learning course in parallel to the course material. It will serve
+as an interesting comparision to the code required to analyze data through
+Python.
+
+# Import Data
+```{r}
+library(here)
+root_dir <- here()
+in_file <- file.path(root_dir, '3_Titanic', 'titantic_data.csv')
+full_data <- read.csv(in_file)
+head(full_data)
+```
+
+# Manipulate Data
+
+We remove the surival feature from the dataset and move it to its own separate
+variable, outcomes, as it is the feature we are trying to predict from the data.
+
+```{r}
+library(dplyr)
+outcomes <- factor(full_data$Survived)
+data <- full_data %>% 
+  select(-Survived)
+head(data)
+```
+
+## Accuracy
+
+To measure performance, we need to make predictions and then test the 
+accuracy of predictions. We can do this using a few methods: 
+
+Let's test a sample prediction with the first 5 results, predicting they all
+have surivived
+```{r}
+library(caret)
+accuracy_score <- function(pred, truth) {
+  # Function to test accuracy for survivor outcomes from Titanic dataset
+  # pred & truth converted to factors for xtab/confusionMatrix
+  pred <- factor(pred, levels = c(0,1))
+  truth <- factor(truth, levels = c(0,1))
+  xtab <- table(pred, truth)
+  cm <- confusionMatrix(xtab, positive = "1")
+  print(paste("Predictions have an accuracy of", scales::percent(cm$overall[1])))
+}
+
+accuracy_score(factor(rep(1,5), levels = c(0,1)), outcomes[1:5])
+```
+
+Our accuracy here would be: `r acc`
+
+# Making Predictions
+
+Since most people did not survive the Titanic, our null hyopthesis for any model
+will be based on a model that assumes no one survived. Any model that does not
+beat this naive model is a bad model. 
+
+```{r}
+predictions_0 <- function(data) {
+  predictions = rep(0, nrow(data))
+}
+predictions <- predictions_0(data)
+accuracy_score(predictions, outcomes)
+```
+
+## Effect of Sex
+
+Rather than create a function to plot based on a feature, we will use the
+rather intuitive ggplot2 syntax to quickly build plots. 
+
+```{r}
+survival_labs <- c("Did Not Survive", "Survived")
+ggplot(data = data, aes(Sex, fill=outcomes)) + 
+  geom_bar(position="dodge") + 
+  scale_fill_discrete(labels = survival_labs)
+```
+
+Since we know more females as a percentage survived than males, our next model
+will perform a simple prediction based on sex.
+
+```{r}
+predictions_1 <- function(data) {
+  as.numeric(data$Sex == "female")
+}
+accuracy_score(predictions_1(data), outcomes)
+```
+
+## Effects of Age
+
+Let's look at the effects of age on survival
+
+```{r}
+ggplot(data=data, aes(Age, fill = outcomes)) + 
+  geom_histogram(binwidth=10, boundary = 0, alpha = 0.5, position = "identity") +
+  facet_wrap(~ Sex) +
+  scale_fill_discrete(labels = survival_labs)
+
+```
+
+We see that males < 10 have a better survival rate than males > 10 so let's
+add that to our model
+
+```{r}
+predictions_2 <- function(data) {
+  c1 <- data$Sex == 'female'
+  c2 <- data$Age < 10
+  z <- pmax(c1, c2)
+  return(z)
+}
+accuracy_score(predictions_2(data), outcomes)
+```
+
+Now that we have a decent model, let's try and build a better model using
+some data science methods available to us. 
+
+We'll first split the dataset into training, test, and calibration sets. This is
+not strictly necessary as we are not seeking to predict surivival rates of 
+future Titanic sinkings, but it's a good practice and so we perform it here for
+demonstration purposes. 
+
+```{r}
+set.seed(1912)
+
+```
+First, we need to perform feature selection. Let's look at a correlation matrix
+to see what variables are correlated with each other, to remove redundant
+features as we don't want an unnecessarily complex model 
+```{r}
+]
+```
