@@ -1,8 +1,8 @@
 ---
 title: "Titanic Visualizations"
 output:
-  html_document: default
   html_notebook: default
+  html_document: default
 ---
 
 This is an R Notebook that uses R to analyze Titanic data from the Udacity
@@ -50,10 +50,10 @@ accuracy_score <- function(pred, truth) {
   print(paste("Predictions have an accuracy of", scales::percent(cm$overall[1])))
 }
 
-accuracy_score(factor(rep(1,5), levels = c(0,1)), outcomes[1:5])
+accuracy_score(rep(1,5), outcomes[1:5])
 ```
 
-Our accuracy here would be: `r acc`
+Our accuracy here would be: `r accuracy_score(factor(rep(1,5), levels = c(0,1)), outcomes[1:5])`
 
 # Making Predictions
 
@@ -136,12 +136,12 @@ First, we need to perform feature selection. Let's look at a correlation matrix
 to see what variables are correlated with each other, to remove redundant
 features as we don't want an unnecessarily complex model 
 
-```{r}
+```{r, cache = TRUE}
+library(GGally)
 var_sel <- d_train %>% 
-  selec(Pclass, Age, SibSp, Parch, Fare, Sex, Embarked)
+  select(Survived, Pclass, Age, SibSp, Parch, Fare, Sex, Embarked)
 summary(var_sel)
 ggcorr(var_sel)
-cor(var_sel[1:5], use = 'complete.obs')
 ```
 
 Here we see strong associations between SibSp and Parch 
@@ -151,48 +151,120 @@ There is also a strong relationship between Pclass and Fare, which also makes
 sense as higher-class cabins are usually more expensive. 
 
 There's a surprising moderate negative relationship between class and age, as 
-it appears older passengers are also lower-class. This is something worth 
-exploring before additional modeling 
+it appears older passengers are also lower-class as well. 
+
+Let's explore some variables against outcomes. 
 
 ```{r}
-qplot(data=full_data, factor(Pclass), Age, geom = 'boxplot', group = Pclass)
-qplot(data=full_data, fill = Embarked, outcomes)
+g <- ggplot(data=var_sel, aes(factor(Survived), fill = factor(Pclass))) +
+  geom_bar(position="fill") + 
+  scale_x_discrete(labels = c("Did not survive", "Survived")) +
+  labs(x = "", y = "Proportion", fill = "Passenger Class")
+g
+
+g <- ggplot(data=var_sel, aes(factor(Survived), fill = factor(Sex))) +
+  geom_bar(position="fill") + 
+  scale_x_discrete(labels = c("Did not survive", "Survived")) +
+  labs(x = "", y = "Proportion", fill = "Passenger Sex")
+g
+
+g + facet_wrap(~ Pclass)
+
+g <- ggplot(data=var_sel, aes(factor(Survived), Fare)) + 
+  geom_boxplot() + 
+  scale_x_discrete(labels = c("Did not survive", "Survived")) +
+  labs(x = "", y = "Fare")
+g
 ```
+
+In our first attempt, we will try using generalized linear models to 
+perform logistic regression using these variables.  Let's plot surivival against
+the variables we think might be worth investigating.
 
 ```{r}
 # Build a simple model
 mdl_sex <- glm(Survived ~ Sex, data = d_train, family=binomial(link='logit'))
 summary(mdl_sex)
 
-# Slightly better 
-mdl_sexage <- glm(Survived ~ Sex + Age , data = d_train, family=binomial(link='logit'))
-summary(mdl_sexage)
-
-# More better
-mdl_all <- glm(Survived ~ Sex + Age + Pclass + Parch, data = d_train, family=binomial(link='logit'))
-summary(mdl_all)
-mdl_probs = predict(mdl_all, type = "response")
-mdl_pred = rep(0, nrow(d_train))
-mdl_pred[mdl_probs > 0.5] = 1
-xtab <- table(mdl_pred, d_train$Survived)
-accuracy_score(mdl_pred, d_train$Survived)
-
-# Not very good accuracy!
+# Test the output
+mdl_probs = predict(mdl_sex, type = 'response')
+mdl_sex.predict <- rep(0, nrow(d_train))
+mdl_sex.predict[mdl_probs > 0.5] = 1
+table(mdl_sex.predict, d_train$Survived)
+mean(mdl_sex.predict == d_train$Survived) # Accuracy
+accuracy_score(mdl_sex.predict, d_train$Survived)
 ```
 
-Using a logistic model doesn't delivery very good accuracy. Let's try another
-model, using decision trees.
+Our simple logit model gives us an accuracy of 78.9%, not bad  but we can do 
+better.
+
+What if we tried a linear discremant analysis (LDA)?
+```{r}
+# Build an LDA model
+d_train_cc <- d_train %>%
+  na.omit()
+lda_fit <- MASS::lda(Survived ~ Sex + Age + Pclass + Fare + Embarked + SibSp + Parch, data = d_train_cc)
+lda_fit
+
+# Test using training set
+mdl_probs = predict(lda_fit, type = 'response')
+mdl.predict <- mdl_probs$class
+table(mdl.predict, d_train_cc$Survived)
+mean(mdl.predict == d_train_cc$Survived) # Accuracy
+accuracy_score(mdl.predict, d_train_cc$Survived)
+
+# Test using calibration set
+d_cal_cc <- d_cal %>%
+  na.omit()
+mdl_probs = predict(lda_fit, newdata = d_cal_cc, type = 'response')
+mdl.predict <- mdl_probs$class
+table(mdl.predict, d_cal_cc$Survived)
+mean(mdl.predict == d_cal_cc$Survived)
+accuracy_score(mdl.predict, d_cal_cc$Survived)
+```
+
+Accuracy significantly drops in calibration dataset, suggesting overfitting. 
+```{r}
+# Build an LDA model
+d_train_cc <- d_train %>%
+  na.omit()
+lda_fit <- MASS::lda(Survived ~ Sex + Age + Pclass  + SibSp, data = d_train_cc)
+lda_fit
+
+# Test using training set
+mdl_probs = predict(lda_fit, type = 'response')
+mdl.predict <- mdl_probs$class
+table(mdl.predict, d_train_cc$Survived)
+mean(mdl.predict == d_train_cc$Survived) # Accuracy
+accuracy_score(mdl.predict, d_train_cc$Survived)
+
+# Test using calibration set
+d_cal_cc <- d_cal %>%
+  na.omit()
+mdl_probs = predict(lda_fit, newdata = d_cal_cc, type = 'response')
+mdl.predict <- mdl_probs$class
+table(mdl.predict, d_cal_cc$Survived)
+mean(mdl.predict == d_cal_cc$Survived)
+accuracy_score(mdl.predict, d_cal_cc$Survived)
+```
+
+Accuracy is now much closer between the training and calibration datasets, but
+not near the 80% that we striving for. Let's try another
+model, this time using decision trees. Decision trees have the added bonus
+of being highly interpretable, at the expense of lower performance than
+more complex models. A price I am willing to pay in this example. 
 
 ```{r}
-library(rpart)
+library(rpart.plot)
 
 # Simple first
 mdl_sexage <- rpart(Survived ~ Sex + Age, data = d_train, method = 'class')
-rpart.plot(mdl_sextree, uniform = TRUE)
+summary(mdl_sexage)
+rpart.plot(mdl_sexage, type = 4)
 
 # Little more complex
 mdl_all <- rpart(Survived ~ Sex + Age + Pclass + Parch, data = d_train, method = 'class')
-rpart.plot(mdl_all, uniform = TRUE)
+rpart.plot(mdl_all, type = 4)
 ```
 
 We can see that a decision tree offers intuitive ways to understand the
@@ -228,10 +300,10 @@ Including all terms improves accuracy to 79.5% in calibration.
 We can play with some of the rpart settings to see how we can tune accuracy
 
 ```{r}
-control = rpart.control(cp = 0.001, maxdepth = 5)
+control = rpart.control(cp = 0.001, maxdepth = 4, minsplit = 1, minbucket = 2, surrogatestyle = 1)
 mdl_all3 <- rpart(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked, 
                   data = d_train, method = 'class', control = control)
-rpart.plot(mdl_all3, uniform = TRUE)
+rpart.plot(mdl_all3, type = 4)
 mdl_pred <- predict(mdl_all3, type = "class")
 accuracy_score(mdl_pred, d_train$Survived)
 
@@ -240,7 +312,7 @@ table(mdl_pred, d_cal$Survived)
 accuracy_score(mdl_pred, d_cal$Survived)
 ```
 
-With some tuning, we improve prediction to 80.8% in the calibration set. 
+With some tuning, we improve prediction to 79.5% in the calibration set. 
 This is a pretty good result, so let's check against our test data.
 
 ```{r}
@@ -252,8 +324,9 @@ Great! Test prediction is even higher than calibration prediction. Let's use
 the entire dataset to build our final model.
 
 ```{r}
+library(rpart.plot)
 mdl_tree_final <- rpart(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked, 
                   data = full_data, method = 'class', control = control)
 accuracy_score(predict(mdl_tree_final, type = 'class'), full_data$Survived)
-rpart.plot(mdl_tree_final)
+rpart.plot(mdl_tree_final, type = 4)
 ```
