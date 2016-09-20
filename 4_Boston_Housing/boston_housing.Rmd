@@ -1,0 +1,44 @@
+---
+title: "Boston Housing Analysis"
+author: "Pedram Navid"
+date: "September 20, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This is a R Markdown Document for the Udacity Boston Housing Project.
+
+## Getting Started
+
+First step is to import the data
+
+```{r}
+library(here)
+suppressPackageStartupMessages(library(dplyr))
+
+# Import Data
+data <- read.csv(here('4_Boston_Housing/housing.csv'))
+
+# Load the datasets
+prices <- data$MEDV
+features <- data %>%
+  select
+glimpse(data)
+```
+
+## Data Exploration
+
+### Calculate Statistics
+
+Rather that calculate summary stats separately, we can do so with two lines in
+R
+
+```{r}
+library(scales)
+summary(prices) 
+paste0("Standard Deviation: ", dollar(sd(prices)))
+```
+
