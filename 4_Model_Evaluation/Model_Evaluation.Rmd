@@ -1,0 +1,74 @@
+---
+title: Model Evaluation
+output: html_notebook
+---
+
+  
+There are my notes on Model Evaluation. I did not capture everything in the
+Udacity modules, but only things which I found particularly interesting
+or might need to remember, so please don't consider this complete in any way.
+
+
+# Data Modeling
+
+## One-hot encoding
+
+One-hot encoding is the pandas/numpy way of dealing with categorical variables,
+which are known as factors in R. This is a lot easier to do in R than in Python,
+as I'll show below:
+
+```{python}
+# In this exercise we'll load the titanic data (from Project 0)
+# And then perform one-hot encoding on the feature names
+
+import numpy as np
+import pandas as pd
+
+# Load the dataset
+X = pd.read_csv('titanic_data.csv')
+# Limit to categorical data
+X = X.select_dtypes(include=[object])
+
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
+
+# TODO: create a LabelEncoder
+
+le = LabelEncoder()
+
+# TODO: For each feature name in X, apply a label encoder using fit_transform
+# Reassign this transformed data back into the feature for X!
+
+X = X.apply(le.fit_transform)
+
+# TODO: create a OneHotEncoder object, and fit it to all of X.
+enc = OneHotEncoder()
+enc.fit(X)
+
+#TODO: transform the categorical titanic data, and store the transformed labels in the variable `onehotlabels`
+onehotlabels = enc.transform(X)
+```
+
+In R:
+
+```{r}
+library(dplyr)
+in_file <- here('3_Titanic/titanic_data.csv')
+
+# By default, all characters are converted to factors, which is almost too easy
+x <- read.csv(in_file, stringsAsFactors = FALSE)
+
+# Let's perform those 6 lines from Python in one chain
+x %>%
+  select_if(is.character) %>%
+  mutate_all(funs(factor)) %>%
+  tbl_df()
+```
+
+# Import Data
+```{r}
+library(here)
+full_data <- read.csv(in_file)
+head(full_data)
+```
+
