@@ -65,10 +65,10 @@ x %>%
   tbl_df()
 ```
 
-# Import Data
-```{r}
-library(here)
-full_data <- read.csv(in_file)
-head(full_data)
-```
+## Time Series Data Leakage
 
+In order to avoid leakage with time-series data, we need to ensure we aren't
+using future data to predict. One good method is to create a training set made 
+up of data from before a certain point, a validation set of data just beyond
+that, and testing data leading up to the present. This will help prevent 
+overfitting! 
