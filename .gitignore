@@ -37,6 +37,7 @@ vignettes/*.pdf
 /machine-learning
 /machine-learning/
 /ud120-projects
+/enron-mail
 
 # User-specific stuff:
 .idea/workspace.xml
