@@ -36,6 +36,7 @@ vignettes/*.pdf
 # Machine Learning Project Files from Udacity
 /machine-learning
 /machine-learning/
+/ud120-projects
 
 # User-specific stuff:
 .idea/workspace.xml
