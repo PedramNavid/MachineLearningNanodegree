@@ -2,7 +2,7 @@
 title: "Boston Housing Analysis"
 author: "Pedram Navid"
 date: "September 20, 2016"
-output: html_document
+output: html_notebook
 ---
 
 ```{r setup, include=FALSE}
@@ -15,7 +15,7 @@ This is a R Markdown Document for the Udacity Boston Housing Project.
 
 First step is to import the data
 
-```{r}
+```{r, message = F}
 library(here)
 suppressPackageStartupMessages(library(dplyr))
 
@@ -27,6 +27,7 @@ prices <- data$MEDV
 features <- data %>%
   select
 glimpse(data)
+dim(data)
 ```
 
 ## Data Exploration
@@ -42,3 +43,114 @@ summary(prices)
 paste0("Standard Deviation: ", dollar(sd(prices)))
 ```
 
+##  Define a performance metric
+
+We will use r^2 in this metric to define performane. This is provided
+by most fit functions, and does not need to be coded separately: 
+
+`summary(some.model)$r.squared`
+
+Here is a sample prediction exercise from the course:
+```{r}
+true <- c(3, -.5, 2, 7, 4.2)
+pred <- c(2.5, 0, 2.1, 7.8, 5.3)
+
+cor(true, pred) ^2
+```
+
+
+## Split and shuffle data
+
+```{r}
+idx <- sample(c(0,1), size = length(data), replace = TRUE, prob = c(0.8, 0.2))
+train <- data[idx==0,]
+test <- data[idx==1,]
+dim(train)
+
+```
+
+## Analayze Model Performance
+
+### Learning Curves
+One way of analyzing model performance is through the use of learning curves. 
+Learning curves allow us to see how model complexity affects model performance
+Let's build a simple decision tree and then use learning curves to asses various 
+parameters. On top of tuning complexity, we will plot the r-squared score
+of each model as the number of training sets increase for both the training 
+score and the test score to help assess whether we are overfitting. 
+
+```{r, cache = TRUE}
+library(mlr)
+library(rpart)
+# Create the task we'd like to plot against learning curves
+task = makeRegrTask(data = data, target = "MEDV") 
+m1 = rmse
+m2 = setAggregation(rmse, train.rmse)
+rdes = makeResampleDesc("CV", iters = 10, predict = "both")
+ps = makeParamSet(
+  makeDiscreteParam("minsplit", values = c(5,10,15)),
+  makeDiscreteParam("maxdepth", values = c(5,10,15,30)),
+  makeDiscreteParam("cp", values = c(0.01, 0.001, 0.0001)))
+
+# Find optimal setting using a grid method
+ctrl = makeTuneControlGrid()
+res = tuneParams("regr.rpart", 
+                 task = task, 
+                 resampling = rdes, 
+                 par.set = ps,
+                 measures = m1,
+                 control = ctrl)
+opt.grid = as.data.frame(res$opt.path)
+```
+
+```{r}
+# View results
+head(opt.grid)
+g = ggplot(opt.grid, aes(x = minsplit, y = cp, fill = rmse.test.rmse))
+g + geom_tile()
+
+# Let's explore various training set sizes for each 
+lrn_best = setHyperPars(makeLearner('regr.rpart', id = "opt_regr.rpart"), par.vals = res$x)
+lrn_max1 = setHyperPars(makeLearner('regr.rpart', id= "max_depth = 1"), par.vals = list(maxdepth = 1))
+lrn_max5 = setHyperPars(makeLearner('regr.rpart', id= "max_depth = 5"), par.vals = list(maxdepth = 5))
+lrn_max10 = setHyperPars(makeLearner('regr.rpart', id= "max_depth = 10"), par.vals = list(maxdepth = 10))
+
+r = generateLearningCurveData(list(lrn_best, lrn_max1, lrn_max5, lrn_max10, 'regr.rpart'), 
+                              task = task,
+                              percs = seq(0.1, 1, by = 0.1),
+                              measures = list(m1, m2),
+                              show.info = TRUE,
+                              resampling = rdes
+                              )
+plotLearningCurve(r, facet = "learner", pretty.names = FALSE)
+plotLearningCurve(r, pretty.names = FALSE)
+```
+
+### Complexity Curves
+
+Similar to learning curves, we can plot changing complexity, such as 
+the increase in maxdepth in `rpart` 
+```{r}
+ps = makeParamSet(makeDiscreteParam("maxdepth", values = 2:15),
+                  makeDiscreteParam("cp", values = c(0.01, 0.001, 0.005)))
+
+# Find optimal setting using a grid method
+ctrl = makeTuneControlGrid()
+res = tuneParams("regr.rpart", 
+                 task = task, 
+                 resampling = rdes, 
+                 par.set = ps,
+                 measures = list(m1, m2),
+                 control = ctrl)
+res_data = generateHyperParsEffectData(res)
+
+ggplot(data=res_data$data, aes(x=maxdepth, y=rmse.train.rmse)) + 
+  geom_line(aes(color="rmse.train.rmse")) + 
+  geom_line(aes(y=rmse.test.rmse, color = "rmse.test.rmse")) +
+  facet_wrap(~cp)
+```
+
+Here we can see that maxdepth of around 4 maximizes the the Rsq of the test
+value, while a cp of 0.001 offers the highest score for both training
+and test sets. However, the large gap betwen test and train suggests 
+that additional data or features might help improve the model. 
