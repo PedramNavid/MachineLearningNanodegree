@@ -51,15 +51,16 @@ onehotlabels = enc.transform(X)
 
 In R:
 
-```{r}
+```{r, messages = F}
 library(dplyr)
+library(here)ti
 in_file <- here('3_Titanic/titanic_data.csv')
 
 # By default, all characters are converted to factors, which is almost too easy
 x <- read.csv(in_file, stringsAsFactors = FALSE)
 
 # Let's perform those 6 lines from Python in one chain
-x %>%
+titanic <-x %>%
   select_if(is.character) %>%
   mutate_all(funs(factor)) %>%
   tbl_df()
@@ -72,3 +73,85 @@ using future data to predict. One good method is to create a training set made
 up of data from before a certain point, a validation set of data just beyond
 that, and testing data leading up to the present. This will help prevent 
 overfitting! 
+
+## Mixing Datasets
+
+Be very careful about introducing features that come from different sources 
+depending on the class! It’s a classic way to accidentally introduce biases and
+mistakes.
+
+# Evaluation and Validation
+
+## Train/Test Split
+
+In Python, the train_test_helper function from sk-learn can help split data
+randomly into test and training data.
+
+
+```{python}
+>>> X_train, X_test, y_train, y_test = cross_validation.train_test_split(
+...     iris.data, iris.target, test_size=0.4, random_state=0)
+
+>>> X_train.shape, y_train.shape
+((90, 4), (90,))
+>>> X_test.shape, y_test.shape
+((60, 4), (60,))
+```
+
+In R, it is similarily easy to split a dataset into training and test splits
+
+```{r}
+idx <- sample(seq(1, 3), size = nrow(iris), replace = TRUE, prob = c(.8, .2, .2))
+train <- iris[idx == 1,]
+test <- iris[idx == 2,]
+cal <- iris[idx == 3,]
+
+test_split <- function(df, cuts, prob, ...)
+{
+  idx <- sample(seq(1, cuts), size = nrow(df), replace = TRUE, prob = prob, ...)
+  z = list()
+  for (i in 1:cuts)
+    z[[i]] <- df[idx == i,]
+  z
+}
+z <- test_split(iris, 4, c(0.7, .1, .1, .1))
+
+train <- z[1]
+test <- z[2]
+cal <- z[3]
+other <- z[4]
+```
+
+
+# Evaluation Metrics
+
+## Classification
+
+Accuracy is the most basic form of evaluation for classification problems. It 
+tells you how many items you classified correctly, over the total set of items.
+That is **accuracy = correct instances / total instances**
+
+## Confusion Matrix
+
+2x2 Matrix that compares actual class vs. predicted class
+
+# Causes of Error
+
+## Bias
+
+Underfitting of data due to simplicity in model vs data. 
+
+## Variance
+
+How much our predictions vary for a given test sample, can be a marker of
+overfitting if variance is too high
+
+We can use learning curve in Python to analyze the bias/variane trade-off.
+How could we do something similar in R?
+
+## Bias-Variance Dilemma and No. of Features
+
+High Bias: little attention to data, over-simplified, high error on training
+High Variance: pays too much attention to data, overfits, higher error on test set
+
+
