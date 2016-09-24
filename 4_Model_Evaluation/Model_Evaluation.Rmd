@@ -164,7 +164,7 @@ generalize accurately grows exponentially.
 A learning curve is a graph that compares performance of a model on training and 
 testing data over a varying number of training instances.
 
-When the modl has learned as much as it can about the data we should see a 
+When the model has learned as much as it can about the data we should see a 
 pleateau and consistent gap between the two error rates.
 
 If the training and testing errors converage and are quite high, it usually 
