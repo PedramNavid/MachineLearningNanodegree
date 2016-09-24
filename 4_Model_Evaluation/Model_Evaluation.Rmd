@@ -154,4 +154,46 @@ How could we do something similar in R?
 High Bias: little attention to data, over-simplified, high error on training
 High Variance: pays too much attention to data, overfits, higher error on test set
 
+# Curse of Dimensionality
 
+As numbers of features or dimensions grows, the amount of data we need to 
+generalize accurately grows exponentially.
+
+# Learning Curves
+
+A learning curve is a graph that compares performance of a model on training and 
+testing data over a varying number of training instances.
+
+When the modl has learned as much as it can about the data we should see a 
+pleateau and consistent gap between the two error rates.
+
+If the training and testing errors converage and are quite high, it usually 
+means the model is biased. That is, the underlying relationship is too
+complex for the data.
+
+A large gap between the two errors means the model suffers from high variance. 
+This means more data might be required to improve, or we can simply the model
+to improve performance by focusing on the most important features.
+
+## Model Complexity
+
+A model complexity graph looks at training and testing curves as the model's
+complexity increases. Generally, as complexity increases, bias will fall and
+variance will rise. Validation curves are one method of monitoring model complexity
+in scikit-learn.
+
+# Cross-Validation
+
+Problems with splitting into training and testing data: tradeoff between maximizing
+test and training set. 
+
+Cross-validation helps you overcome this issue using k-fold cross validation. 
+You split the data into k-sets and perform testing on k-separate sets, 
+substituting testing sets, and average test results from k-experiments. 
+
+Uses all data for testing and training. 
+
+## K-Fold Cross Validation in sk-learn
+
+Use shuffle to ensure data is ranodmized
+Cross validation can also be used for parameter tuning, using grid_search.GridSearchCV
