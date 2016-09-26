@@ -2,7 +2,9 @@
 title: "Boston Housing Analysis"
 author: "Pedram Navid"
 date: "September 20, 2016"
-output: html_notebook
+output:
+  html_document: default
+  html_notebook: default
 ---
 
 ```{r setup, include=FALSE}
@@ -79,7 +81,7 @@ parameters. On top of tuning complexity, we will plot the r-squared score
 of each model as the number of training sets increase for both the training 
 score and the test score to help assess whether we are overfitting. 
 
-```{r, cache = TRUE}
+```{r, cache = TRUE, echo = TRUE}
 library(mlr)
 library(rpart)
 # Create the task we'd like to plot against learning curves
