@@ -1,0 +1,24 @@
+---
+title: "Linear Algebra"
+output: html_notebook
+---
+
+# Notebook for Linear Algebra - Intersections course on Udacity
+
+Lines in Two Dimensions: 
+
+Two pieces of info define a line, basepoint $\vec{x}_0$ and direction
+vector $\vec{v}$
+
+All points represented by form $\vec{x}(t) = \vec{x}_0 + t\vec{v}$
+ with infinitely many basepoints and direction vectors.
+ 
+ Give $y = mx +v$ m is slope, b is y intercept. For every movement in the
+ x direction there are m movements in the y direction.
+ 
+ More general form is $A_x + B_y = k$
+ 
+To reconstruct a basepoint: 
+
+if $B \ne 0$ take $x=0$ to get $y = \frac{k}{B}$
+if $A \ne 0$ take $y=0$ to get $x = \frac{k}{A}$

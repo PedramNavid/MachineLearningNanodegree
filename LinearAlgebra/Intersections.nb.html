@@ -142,7 +142,7 @@ $(document).ready(function () {
 <script src="data:application/x-javascript;base64,Cgp3aW5kb3cuaW5pdGlhbGl6ZVNvdXJjZUVtYmVkID0gZnVuY3Rpb24oZmlsZW5hbWUpIHsKICAkKCIjcm1kLWRvd25sb2FkLXNvdXJjZSIpLmNsaWNrKGZ1bmN0aW9uKCkgewogICAgdmFyIHNyYyA9IHdpbmRvdy5hdG9iKCQoIiNybWQtc291cmNlLWNvZGUiKS5odG1sKCkpOwogICAgdmFyIGJsb2IgPSBuZXcgQmxvYihbc3JjXSwge3R5cGU6ICJ0ZXh0L3gtci1tYXJrZG93biJ9KTsKICAgIHNhdmVBcyhibG9iLCBmaWxlbmFtZSk7CiAgfSk7Cn07Cg=="></script>
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("Linear_Algebra.Rmd");
+  window.initializeSourceEmbed("Intersections.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
@@ -172,206 +172,19 @@ $(document).ready(function () {
 
 
 <!-- rnb-text-begin -->
-<div id="notebook-for-linear-algebra-course-on-udacity" class="section level1">
-<h1>Notebook for Linear Algebra course on Udacity</h1>
-<div id="points-and-vectors" class="section level2">
-<h2>Points and Vectors</h2>
-<ul>
-<li>Points: represent location, written as (x,y,z, …)</li>
-<li><p>Cartesian coordinate: standard 2-dimensional</p></li>
-<li><p>Vector: represent change in location, properties include magnitude and direction, written as [2,4]</p></li>
-</ul>
-</div>
-</div>
-<div id="vector-module" class="section level1">
-<h1>Vector Module</h1>
-<div id="operating-on-vectors" class="section level2">
-<h2>Operating on Vectors</h2>
-<p>In Python, we can create vector objects to operate on vectors, however, R handles this much more naturally.</p>
+<div id="notebook-for-linear-algebra---intersections-course-on-udacity" class="section level1">
+<h1>Notebook for Linear Algebra - Intersections course on Udacity</h1>
+<p>Lines in Two Dimensions:</p>
+<p>Two pieces of info define a line, basepoint <span class="math inline">\(\vec{x}_0\)</span> and direction vector <span class="math inline">\(\vec{v}\)</span></p>
+<p>All points represented by form <span class="math inline">\(\vec{x}(t) = \vec{x}_0 + t\vec{v}\)</span> with infinitely many basepoints and direction vectors.</p>
+<p>Give <span class="math inline">\(y = mx +v\)</span> m is slope, b is y intercept. For every movement in the x direction there are m movements in the y direction.</p>
+<p>More general form is <span class="math inline">\(A_x + B_y = k\)</span></p>
+<p>To reconstruct a basepoint:</p>
+<p>if <span class="math inline">\(B \ne 0\)</span> take <span class="math inline">\(x=0\)</span> to get <span class="math inline">\(y = \frac{k}{B}\)</span> if <span class="math inline">\(A \ne 0\)</span> take <span class="math inline">\(y=0\)</span> to get <span class="math inline">\(x = \frac{k}{A}\)</span></p>
 <!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubXlfdmVjdG9yIDwtIGMoMSwyLDMpXG5teV92ZWN0b3IyIDwtIGMoMSwyLDMpXG5teV92ZWN0b3IzIDwtIGMoLTEsMiwzKVxuXG5wcmludChteV92ZWN0b3IgPT0gbXlfdmVjdG9yMilcbnByaW50KG15X3ZlY3RvciA9PSBteV92ZWN0b3IzKVxuYGBgIn0= -->
-<pre class="r"><code>my_vector &lt;- c(1,2,3)
-my_vector2 &lt;- c(1,2,3)
-my_vector3 &lt;- c(-1,2,3)
-
-print(my_vector == my_vector2)
-print(my_vector == my_vector3)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Addition can be accomplished using + operator</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueCA8LSBjKDEsMilcbnkgPC0gYyg0LDMpXG5cbnggKyB5XG5gYGAifQ== -->
-<pre class="r"><code>x &lt;- c(1,2)
-y &lt;- c(4,3)
-
-x + y</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Subtraction is similar</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueCA8LSBjKDEsMylcbnkgPC0gYyg1LDEpXG54IC0geVxueSAtIHhcbmBgYCJ9 -->
-<pre class="r"><code>x &lt;- c(1,3)
-y &lt;- c(5,1)
-x - y
-y - x</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Scalar Multiplication scales the size of a vector.</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuMiAqIGMoMSwyKVxuXG4tMS8yICogYygzLDIsMSlcbmBgYCJ9 -->
-<pre class="r"><code>2 * c(1,2)
-
--1/2 * c(3,2,1)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Scalar Quiz</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYyg4LjIxOCwgLTkuMzQxKSArIGMoLTEuMTI5LCAyLjExMSkgXG5jKDcuMTE5LCA4LjIxNSkgLSBjKC04LjIyMywgMC44NzgpXG43LjQxICogYygxLjY3MSwgLTEuMDEyLCAtMC4zMTgpXG5gYGAifQ== -->
-<pre class="r"><code>c(8.218, -9.341) + c(-1.129, 2.111) 
-c(7.119, 8.215) - c(-8.223, 0.878)
-7.41 * c(1.671, -1.012, -0.318)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="magnitude-and-direction" class="section level2">
-<h2>Magnitude and Direction</h2>
-<p>Magnitude is the square root of the sum of the square of a vectors coordinates.</p>
-<p>To define a direction of a vector, a vector of magnitude 1 is used (unit-vector).</p>
-<p>Normalization is the process of finding a unit vector in the same direction as a given vector.</p>
-<p>2 step process:</p>
-<ol style="list-style-type: decimal">
-<li>find its magnitude: <span class="math inline">\(||\vec{v}|| = \sqrt{v^2_1 + v^2_2 + \dotsb + v^2_n}\)</span></li>
-<li>perform a scalar multiplication: <span class="math inline">\(\vec{v} \times \frac{1}{||\vec{v}||}\)</span> = unit vector in direction of v</li>
-</ol>
-<p>Example: normalize <span class="math inline">\(\vec{v} = [-1,1,1]\)</span></p>
-<p>Answer: <span class="math display">\[ ||\vec{v}|| = \sqrt{(-1^2) + 1^2 + 1^2}= \sqrt3 \]</span> <span class="math display">\[ [-1, 1, 1] \times \frac{1}{\sqrt{3}} = [\frac{-1}{\sqrt(3)}, \frac{1}{\sqrt(3)}, \frac{1}{\sqrt(3)}] \]</span> In R:</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWFnbml0dWRlIDwtIGZ1bmN0aW9uKHgpIHtcbiAgc3FydChzdW0oeF4yKSlcbn1cbm5vcm1hbGl6ZSA8LSBmdW5jdGlvbih4KSB7XG4gIHggLyBtYWduaXR1ZGUoeClcbn1cbnYgPC0gYygtMSwgMSwgMSlcbm5vcm1hbGl6ZSh2KSBcblxubWFnbml0dWRlKG5vcm1hbGl6ZSh2KSlcbmBgYCJ9 -->
-<pre class="r"><code>magnitude &lt;- function(x) {
-  sqrt(sum(x^2))
-}
-normalize &lt;- function(x) {
-  x / magnitude(x)
-}
-v &lt;- c(-1, 1, 1)
-normalize(v) 
-
-magnitude(normalize(v))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="inner-products-dot-products" class="section level2">
-<h2>Inner Products (Dot Products)</h2>
-<p>Dot product of two vectors is the sum of the product of the corressponding components of both vectors</p>
-<p><span class="math display">\[ \vec{v} \cdot \vec{w} = v_1w_1 + v_2w_2 + \dotsb + v_nw_n\]</span> The angle between two vectors is found through the following method: <span class="math display">\[ \theta = arccos\left(\frac {\vec{v} \cdot \vec{w}} {||v|| \cdot||w||}\right) \]</span> An interesting result of the above is that we can compare the direction of vectors v and w such that if the dot product of v an w equal the product of their magnitudes, then v and w have the same direction. If they are equal ot the negative of the product of their magnitudes, then the angle between both vectors is 180 degrees (opposite direction).</p>
-<p>If the product is 0 and neither vw and w is 0, which means the two vectors are at a right-angle to each other.</p>
-<p>The magnitude of v is the square root of v times v.</p>
-<div id="implementation" class="section level3">
-<h3>Implementation</h3>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBJbXBsZW1lbnQgZG90IHByb2R1Y3QgJiBhbmdsZSBcbmRvdF9wcm9kdWN0IDwtIGZ1bmN0aW9uKHgseSwuLi4pIHtcbiAgc3VtKHggKiB5KVxuICAjIEFsdGVybmF0aXZlbHksIHggJSolIHlcbn1cblxudGhldGEgPC0gZnVuY3Rpb24oeCwgeSkge1xuICBhY29zKChkb3RfcHJvZHVjdCh4LHkpKSAvIChtYWduaXR1ZGUoeCkgKiBtYWduaXR1ZGUoeSkpKVxufVxuXG52IDwtIGMoMSw1LDcpIFxudyA8LSBjKDIsMywwKVxuZG90X3Byb2R1Y3QodiwgdylcbnRoZXRhKHYsIHcpXG5gYGAifQ== -->
-<pre class="r"><code># Implement dot product &amp; angle 
-dot_product &lt;- function(x,y,...) {
-  sum(x * y)
-  # Alternatively, x %*% y
-}
-
-theta &lt;- function(x, y) {
-  acos((dot_product(x,y)) / (magnitude(x) * magnitude(y)))
-}
-
-v &lt;- c(1,5,7) 
-w &lt;- c(2,3,0)
-dot_product(v, w)
-theta(v, w)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="quiz" class="section level3">
-<h3>Quiz</h3>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZG90X3Byb2R1Y3QoYyg3Ljg4NywgNC4xMzgpLCBjKC04LjgwMiwgNi43NzYpKVxuYygtNS45NTUsIC00LjkwNCwgLTEuODc0KSAlKiUgYygtNC40OTYsIC04Ljc1NSwgNy4xMDMpXG5cbnRoZXRhKGMoMy4xODMsIC03LjYyNyksIGMoLTIuNjY4LCA1LjMxOSkpIFxudGhldGEoYyg3LjM1LCAwLjIyMSwgNS4xODgpLCBjKDIuNzUxLCA4LjI1OSwgMy45ODUpKSAqIDE4MC9waVxuYGBgIn0= -->
-<pre class="r"><code>dot_product(c(7.887, 4.138), c(-8.802, 6.776))
-c(-5.955, -4.904, -1.874) %*% c(-4.496, -8.755, 7.103)
-
-theta(c(3.183, -7.627), c(-2.668, 5.319)) 
-theta(c(7.35, 0.221, 5.188), c(2.751, 8.259, 3.985)) * 180/pi</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-</div>
-<div id="parallel-and-orthogoanal-vectors" class="section level2">
-<h2>Parallel and Orthogoanal Vectors</h2>
-<p><span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(\vec{w}\)</span> are parallel if one is a scalar multiple of another.</p>
-<p><span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(-2\vec{w}\)</span> are thus parallel</p>
-<p><span class="math inline">\(\vec{v}\)</span> and <span class="math inline">\(\vec{w}\)</span> are orthogonal if their dot product is 0.</p>
-<p><span class="math inline">\(\vec{0}\)</span> is parallel and orthogonal to all vectors, and the only vector that is orthogonal to itself</p>
-<div id="quiz-1" class="section level3">
-<h3>Quiz</h3>
-<p>Check for parallelism and orthogonality</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaXNfcGFyYWxsZWwgPC0gZnVuY3Rpb24oeCwgeSkge1xuICAjIEFsbCBlcXVhbCBhbGxsb3dzIGZvciBzbWFsbCBkaWZmZXJlbmNlcyBiZXR3ZWVuIG51bWJlcnNcbiAgIyBBYnNvbHV0ZSBpcyB0YWtlbiB0byBhbGxvdyBmb3IgcGFyYWxsZWwgYnV0IG9wcG9zaXRlIGRpcmVjdGlvblxuICBhbGwuZXF1YWwoYWJzKG5vcm1hbGl6ZSh4KSksIGFicyhub3JtYWxpemUoeSkpKVxufVxuaXNfcGFyYWxsZWwoYygtNy41NzksIC03Ljg4KSwgYygyMi43MzcsIDIzLjY0KSlcbmlzX3BhcmFsbGVsKGMoLTIuMDI5LCA5Ljk3LCA0LjE3MiksIGMoLTkuMjMxLCAtNi42MzksIC03LjI0NSkpXG5pc19wYXJhbGxlbChjKC0yLjMyOCwgLTcuMjg0LCAtMS4yMTQpLCBjKC0xLjgyMSwgMS4wNzIsIC0yLjk0KSlcbmlzX3BhcmFsbGVsKGMoMi4xMTgsIDQuODI3KSwgYygwLDApKVxuXG5hbGwuZXF1YWwoZG90X3Byb2R1Y3QoYygtNy41NzksIC03Ljg4KSwgYygyMi43MzcsIDIzLjY0KSksIDApXG5hbGwuZXF1YWwoZG90X3Byb2R1Y3QoYygtMi4wMjksIDkuOTcsIDQuMTcyKSwgYygtOS4yMzEsIC02LjYzOSwgLTcuMjQ1KSksIDApXG5hbGwuZXF1YWwoZG90X3Byb2R1Y3QoYygtMi4zMjgsIC03LjI4NCwgLTEuMjE0KSwgYygtMS44MjEsIDEuMDcyLCAtMi45NCkpLCAwKVxuYWxsLmVxdWFsKGRvdF9wcm9kdWN0KGMoMi4xMTgsIDQuODI3KSwgYygwLDApKSwgMClcbmBgYCJ9 -->
-<pre class="r"><code>is_parallel &lt;- function(x, y) {
-  # All equal alllows for small differences between numbers
-  # Absolute is taken to allow for parallel but opposite direction
-  all.equal(abs(normalize(x)), abs(normalize(y)))
-}
-is_parallel(c(-7.579, -7.88), c(22.737, 23.64))
-is_parallel(c(-2.029, 9.97, 4.172), c(-9.231, -6.639, -7.245))
-is_parallel(c(-2.328, -7.284, -1.214), c(-1.821, 1.072, -2.94))
-is_parallel(c(2.118, 4.827), c(0,0))
-
-all.equal(dot_product(c(-7.579, -7.88), c(22.737, 23.64)), 0)
-all.equal(dot_product(c(-2.029, 9.97, 4.172), c(-9.231, -6.639, -7.245)), 0)
-all.equal(dot_product(c(-2.328, -7.284, -1.214), c(-1.821, 1.072, -2.94)), 0)
-all.equal(dot_product(c(2.118, 4.827), c(0,0)), 0)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-</div>
-<div id="projection" class="section level2">
-<h2>Projection</h2>
-<p>Orthogonality allows us to decompose objects into combinations of simpler objects in a structured way.</p>
-<p><span class="math inline">\(proj_\vec{b}\)</span> or <span class="math inline">\(v^\parallel\)</span></p>
-<p>Component of <span class="math inline">\(\vec{v}\)</span> orthogonal to <span class="math inline">\(\vec{b}\)</span> is <span class="math inline">\(\vec{v}^\perp\)</span></p>
-<p><span class="math inline">\(\vec{v} = \vec{v}^\parallel + \vec{v}^\perp\)</span></p>
-<p>Computing <span class="math inline">\(proj_\vec{b}\)</span>: <span class="math inline">\(||\vec{v}^\parallel|| = \vec{v}\cdot\vec{u}_\vec{b}\)</span> where <span class="math inline">\(\vec{u}_\vec{b}\)</span> is the unit-vector of <span class="math inline">\(\vec{b}\)</span>.</p>
-<p><span class="math inline">\(||\vec{v}^\parallel||\vec{u}_\vec{b} = \vec{v}^\parallel\)</span></p>
-<div id="implementation-1" class="section level3">
-<h3>Implementation</h3>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudnBlcnBcblxuYGBgIn0= -->
-<pre class="r"><code>vperp
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC04LjM1MDA4MSAgMy4zNzYwNjEgLTEuNDMzNzQ2XG4ifQ== -->
-<pre><code>[1] -8.350081  3.376061 -1.433746</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-</div>
-</div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkxpbmVhciBBbGdlYnJhIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KIyBOb3RlYm9vayBmb3IgTGluZWFyIEFsZ2VicmEgY291cnNlIG9uIFVkYWNpdHkNCg0KIyMgUG9pbnRzIGFuZCBWZWN0b3JzDQoNCiogUG9pbnRzOiByZXByZXNlbnQgbG9jYXRpb24sIHdyaXR0ZW4gYXMgKHgseSx6LCAuLi4pDQorIENhcnRlc2lhbiBjb29yZGluYXRlOiBzdGFuZGFyZCAyLWRpbWVuc2lvbmFsIA0KDQoqIFZlY3RvcjogcmVwcmVzZW50IGNoYW5nZSBpbiBsb2NhdGlvbiwgcHJvcGVydGllcyBpbmNsdWRlIA0KbWFnbml0dWRlIGFuZCBkaXJlY3Rpb24sIHdyaXR0ZW4gYXMgWzIsNF0NCg0KIyBWZWN0b3IgTW9kdWxlDQoNCiMjIE9wZXJhdGluZyBvbiBWZWN0b3JzDQoNCkluIFB5dGhvbiwgd2UgY2FuIGNyZWF0ZSB2ZWN0b3Igb2JqZWN0cyB0byBvcGVyYXRlIG9uIA0KdmVjdG9ycywgaG93ZXZlciwgUiBoYW5kbGVzIHRoaXMgbXVjaCBtb3JlIG5hdHVyYWxseS4NCg0KYGBge3J9DQpteV92ZWN0b3IgPC0gYygxLDIsMykNCm15X3ZlY3RvcjIgPC0gYygxLDIsMykNCm15X3ZlY3RvcjMgPC0gYygtMSwyLDMpDQoNCnByaW50KG15X3ZlY3RvciA9PSBteV92ZWN0b3IyKQ0KcHJpbnQobXlfdmVjdG9yID09IG15X3ZlY3RvcjMpDQpgYGANCg0KQWRkaXRpb24gY2FuIGJlIGFjY29tcGxpc2hlZCB1c2luZyArIG9wZXJhdG9yDQpgYGB7cn0NCnggPC0gYygxLDIpDQp5IDwtIGMoNCwzKQ0KDQp4ICsgeQ0KYGBgDQoNClN1YnRyYWN0aW9uIGlzIHNpbWlsYXINCg0KYGBge3J9DQp4IDwtIGMoMSwzKQ0KeSA8LSBjKDUsMSkNCnggLSB5DQp5IC0geA0KYGBgDQoNClNjYWxhciBNdWx0aXBsaWNhdGlvbiBzY2FsZXMgdGhlIHNpemUgb2YgYSB2ZWN0b3IuIA0KDQpgYGB7cn0NCjIgKiBjKDEsMikNCg0KLTEvMiAqIGMoMywyLDEpDQpgYGANCg0KU2NhbGFyIFF1aXoNCg0KYGBge3J9DQpjKDguMjE4LCAtOS4zNDEpICsgYygtMS4xMjksIDIuMTExKSANCmMoNy4xMTksIDguMjE1KSAtIGMoLTguMjIzLCAwLjg3OCkNCjcuNDEgKiBjKDEuNjcxLCAtMS4wMTIsIC0wLjMxOCkNCmBgYA0KDQoNCiMjIE1hZ25pdHVkZSBhbmQgRGlyZWN0aW9uDQoNCk1hZ25pdHVkZSBpcyB0aGUgc3F1YXJlIHJvb3Qgb2YgdGhlIHN1bSBvZiB0aGUgc3F1YXJlIG9mIGENCnZlY3RvcnMgY29vcmRpbmF0ZXMuDQoNClRvIGRlZmluZSBhIGRpcmVjdGlvbiBvZiBhIHZlY3RvciwgYSB2ZWN0b3Igb2YgbWFnbml0dWRlDQoxIGlzIHVzZWQgKHVuaXQtdmVjdG9yKS4gDQoNCk5vcm1hbGl6YXRpb24gaXMgdGhlIHByb2Nlc3Mgb2YgDQpmaW5kaW5nIGEgdW5pdCB2ZWN0b3IgaW4gdGhlIHNhbWUgZGlyZWN0aW9uIGFzIGEgZ2l2ZW4gdmVjdG9yLg0KDQoyIHN0ZXAgcHJvY2VzczogDQoNCjEuIGZpbmQgaXRzIG1hZ25pdHVkZTogJHx8XHZlY3t2fXx8ID0gXHNxcnR7dl4yXzEgKyB2XjJfMiArIFxkb3RzYiArIHZeMl9ufSQNCjIuIHBlcmZvcm0gYSBzY2FsYXIgbXVsdGlwbGljYXRpb246ICRcdmVje3Z9IFx0aW1lcyBcZnJhY3sxfXt8fFx2ZWN7dn18fH0kID0gdW5pdCB2ZWN0b3IgaW4gZGlyZWN0aW9uIG9mIHYNCg0KRXhhbXBsZTogbm9ybWFsaXplICRcdmVje3Z9ID0gWy0xLDEsMV0kDQoNCkFuc3dlcjogDQokJCB8fFx2ZWN7dn18fCA9IFxzcXJ0eygtMV4yKSArIDFeMiArIDFeMn09IFxzcXJ0MyAkJA0KJCQgWy0xLCAxLCAxXSBcdGltZXMgXGZyYWN7MX17XHNxcnR7M319ID0gW1xmcmFjey0xfXtcc3FydCgzKX0sIFxmcmFjezF9e1xzcXJ0KDMpfSwgXGZyYWN7MX17XHNxcnQoMyl9XSAkJA0KSW4gUjogDQpgYGB7cn0NCm1hZ25pdHVkZSA8LSBmdW5jdGlvbih4KSB7DQogIHNxcnQoc3VtKHheMikpDQp9DQpub3JtYWxpemUgPC0gZnVuY3Rpb24oeCkgew0KICB4IC8gbWFnbml0dWRlKHgpDQp9DQp2IDwtIGMoLTEsIDEsIDEpDQpub3JtYWxpemUodikgDQoNCm1hZ25pdHVkZShub3JtYWxpemUodikpDQpgYGANCiMjIElubmVyIFByb2R1Y3RzIChEb3QgUHJvZHVjdHMpDQoNCkRvdCBwcm9kdWN0IG9mIHR3byB2ZWN0b3JzIGlzIHRoZSBzdW0gb2YgdGhlIA0KcHJvZHVjdCBvZiB0aGUgY29ycmVzc3BvbmRpbmcgY29tcG9uZW50cyBvZiBib3RoDQp2ZWN0b3JzDQoNCiQkIFx2ZWN7dn0gXGNkb3QgXHZlY3t3fSA9IHZfMXdfMSArIHZfMndfMiArIFxkb3RzYiArIHZfbndfbiQkDQpUaGUgYW5nbGUgYmV0d2VlbiB0d28gdmVjdG9ycyBpcyBmb3VuZCB0aHJvdWdoIHRoZSBmb2xsb3dpbmcgbWV0aG9kOiANCiQkIFx0aGV0YSA9IGFyY2Nvc1xsZWZ0KFxmcmFjIHtcdmVje3Z9IFxjZG90IFx2ZWN7d319IHt8fHZ8fCBcY2RvdHx8d3x8fVxyaWdodCkgJCQNCkFuIGludGVyZXN0aW5nIHJlc3VsdCBvZiB0aGUgYWJvdmUgaXMgdGhhdCB3ZSBjYW4gY29tcGFyZQ0KdGhlIGRpcmVjdGlvbiBvZiB2ZWN0b3JzIHYgYW5kIHcgc3VjaCB0aGF0IGlmIHRoZSBkb3QgcHJvZHVjdCBvZiB2IGFuIHcgZXF1YWwgdGhlIHByb2R1Y3Qgb2YgdGhlaXIgbWFnbml0dWRlcywgdGhlbiB2IGFuZCB3IGhhdmUgdGhlIHNhbWUgZGlyZWN0aW9uLiBJZiB0aGV5IGFyZSBlcXVhbCBvdCB0aGUgbmVnYXRpdmUgb2YgdGhlIHByb2R1Y3Qgb2YgdGhlaXIgbWFnbml0dWRlcywgdGhlbiB0aGUgYW5nbGUgYmV0d2VlbiBib3RoIHZlY3RvcnMgaXMgMTgwIGRlZ3JlZXMgKG9wcG9zaXRlIGRpcmVjdGlvbikuIA0KDQpJZiB0aGUgcHJvZHVjdCBpcyAwIGFuZCBuZWl0aGVyIHZ3IGFuZCB3IGlzIDAsIHdoaWNoIG1lYW5zIHRoZSB0d28gdmVjdG9ycyBhcmUgYXQgYSByaWdodC1hbmdsZSB0byBlYWNoIG90aGVyLiANCg0KVGhlIG1hZ25pdHVkZSBvZiB2IGlzIHRoZSBzcXVhcmUgcm9vdCBvZiB2IHRpbWVzIHYuIA0KDQojIyMgSW1wbGVtZW50YXRpb24gDQoNCmBgYHtyfQ0KIyBJbXBsZW1lbnQgZG90IHByb2R1Y3QgJiBhbmdsZSANCmRvdF9wcm9kdWN0IDwtIGZ1bmN0aW9uKHgseSwuLi4pIHsNCiAgc3VtKHggKiB5KQ0KICAjIEFsdGVybmF0aXZlbHksIHggJSolIHkNCn0NCg0KdGhldGEgPC0gZnVuY3Rpb24oeCwgeSkgew0KICBhY29zKChkb3RfcHJvZHVjdCh4LHkpKSAvIChtYWduaXR1ZGUoeCkgKiBtYWduaXR1ZGUoeSkpKQ0KfQ0KDQp2IDwtIGMoMSw1LDcpIA0KdyA8LSBjKDIsMywwKQ0KZG90X3Byb2R1Y3QodiwgdykNCnRoZXRhKHYsIHcpDQpgYGANCiMjIyBRdWl6IA0KDQpgYGB7cn0NCmRvdF9wcm9kdWN0KGMoNy44ODcsIDQuMTM4KSwgYygtOC44MDIsIDYuNzc2KSkNCmMoLTUuOTU1LCAtNC45MDQsIC0xLjg3NCkgJSolIGMoLTQuNDk2LCAtOC43NTUsIDcuMTAzKQ0KDQp0aGV0YShjKDMuMTgzLCAtNy42MjcpLCBjKC0yLjY2OCwgNS4zMTkpKSANCnRoZXRhKGMoNy4zNSwgMC4yMjEsIDUuMTg4KSwgYygyLjc1MSwgOC4yNTksIDMuOTg1KSkgKiAxODAvcGkNCmBgYA0KIyMgUGFyYWxsZWwgYW5kIE9ydGhvZ29hbmFsIFZlY3RvcnMNCg0KJFx2ZWN7dn0kIGFuZCAkXHZlY3t3fSQgYXJlIHBhcmFsbGVsIGlmIG9uZSBpcyBhIHNjYWxhciBtdWx0aXBsZSBvZiBhbm90aGVyLg0KDQokXHZlY3t2fSQgYW5kICQtMlx2ZWN7d30kIGFyZSB0aHVzIHBhcmFsbGVsDQoNCiRcdmVje3Z9JCBhbmQgJFx2ZWN7d30kIGFyZSBvcnRob2dvbmFsIGlmIHRoZWlyIGRvdCBwcm9kdWN0IGlzIDAuIA0KDQokXHZlY3swfSQgaXMgcGFyYWxsZWwgYW5kIG9ydGhvZ29uYWwgdG8gYWxsIHZlY3RvcnMsIGFuZCAgdGhlIG9ubHkgdmVjdG9yIA0KdGhhdCBpcyBvcnRob2dvbmFsIHRvIGl0c2VsZiANCg0KIyMjIFF1aXoNCg0KQ2hlY2sgZm9yIHBhcmFsbGVsaXNtIGFuZCBvcnRob2dvbmFsaXR5DQoNCmBgYHtyfQ0KaXNfcGFyYWxsZWwgPC0gZnVuY3Rpb24oeCwgeSkgew0KICAjIEFsbCBlcXVhbCBhbGxsb3dzIGZvciBzbWFsbCBkaWZmZXJlbmNlcyBiZXR3ZWVuIG51bWJlcnMNCiAgIyBBYnNvbHV0ZSBpcyB0YWtlbiB0byBhbGxvdyBmb3IgcGFyYWxsZWwgYnV0IG9wcG9zaXRlIGRpcmVjdGlvbg0KICBhbGwuZXF1YWwoYWJzKG5vcm1hbGl6ZSh4KSksIGFicyhub3JtYWxpemUoeSkpKQ0KfQ0KaXNfcGFyYWxsZWwoYygtNy41NzksIC03Ljg4KSwgYygyMi43MzcsIDIzLjY0KSkNCmlzX3BhcmFsbGVsKGMoLTIuMDI5LCA5Ljk3LCA0LjE3MiksIGMoLTkuMjMxLCAtNi42MzksIC03LjI0NSkpDQppc19wYXJhbGxlbChjKC0yLjMyOCwgLTcuMjg0LCAtMS4yMTQpLCBjKC0xLjgyMSwgMS4wNzIsIC0yLjk0KSkNCmlzX3BhcmFsbGVsKGMoMi4xMTgsIDQuODI3KSwgYygwLDApKQ0KDQphbGwuZXF1YWwoZG90X3Byb2R1Y3QoYygtNy41NzksIC03Ljg4KSwgYygyMi43MzcsIDIzLjY0KSksIDApDQphbGwuZXF1YWwoZG90X3Byb2R1Y3QoYygtMi4wMjksIDkuOTcsIDQuMTcyKSwgYygtOS4yMzEsIC02LjYzOSwgLTcuMjQ1KSksIDApDQphbGwuZXF1YWwoZG90X3Byb2R1Y3QoYygtMi4zMjgsIC03LjI4NCwgLTEuMjE0KSwgYygtMS44MjEsIDEuMDcyLCAtMi45NCkpLCAwKQ0KYWxsLmVxdWFsKGRvdF9wcm9kdWN0KGMoMi4xMTgsIDQuODI3KSwgYygwLDApKSwgMCkNCmBgYA0KIyMgUHJvamVjdGlvbiANCg0KT3J0aG9nb25hbGl0eSBhbGxvd3MgdXMgdG8gZGVjb21wb3NlIG9iamVjdHMgaW50byBjb21iaW5hdGlvbnMgb2Ygc2ltcGxlciBvYmplY3RzIGluIGEgc3RydWN0dXJlZCB3YXkuDQoNCiRwcm9qX1x2ZWN7Yn0kIG9yICR2XlxwYXJhbGxlbCQNCg0KQ29tcG9uZW50IG9mICRcdmVje3Z9JCBvcnRob2dvbmFsIHRvICRcdmVje2J9JCBpcyAkXHZlY3t2fV5ccGVycCQNCg0KJFx2ZWN7dn0gPSBcdmVje3Z9XlxwYXJhbGxlbCArIFx2ZWN7dn1eXHBlcnAkDQoNCkNvbXB1dGluZyAkcHJval9cdmVje2J9JDogJHx8XHZlY3t2fV5ccGFyYWxsZWx8fCA9IFx2ZWN7dn1cY2RvdFx2ZWN7dX1fXHZlY3tifSQgd2hlcmUgJFx2ZWN7dX1fXHZlY3tifSQgaXMgdGhlIHVuaXQtdmVjdG9yIG9mICRcdmVje2J9JC4gDQoNCiR8fFx2ZWN7dn1eXHBhcmFsbGVsfHxcdmVje3V9X1x2ZWN7Yn0gPSBcdmVje3Z9XlxwYXJhbGxlbCQNCg0KIyMjIEltcGxlbWVudGF0aW9uDQoNCmBgYHtyfQ0KcHJvamVjdGlvbiA8LSBmdW5jdGlvbih4LCB5KSB7DQogIHUgPSBub3JtYWxpemUoeSkNCiAgZG90X3Byb2R1Y3QoeCwgdSkgKiB1DQp9DQoNCnByb2plY3Rpb24oYygzLjAzOSwgMS44NzkpLCBjKDAuODI1LCAyLjAzNikpDQoNCnYgPC0gYygtOS44OCwgLTMuMjY0LCAtOC4xNTkpDQpiIDwtIGMoLTIuMTU1LCAtOS4zNTMsIC05LjQ3MykNCg0KDQp2cGVycCA8LSB2IC0gcHJvamVjdGlvbih2LGIpDQp2cGVycA0KDQp2IDwtIGMoMy4wMDksIC02LjE3MiwgMy42OTIsIC0yLjUxKQ0KYiA8LSBjKDYuNDA0LCAtOS4xNDQsIDIuNzU5LCA4LjcxOCkNCg0KDQoNCg0KYGBgDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkxpbmVhciBBbGdlYnJhIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KIyBOb3RlYm9vayBmb3IgTGluZWFyIEFsZ2VicmEgLSBJbnRlcnNlY3Rpb25zIGNvdXJzZSBvbiBVZGFjaXR5DQoNCkxpbmVzIGluIFR3byBEaW1lbnNpb25zOiANCg0KVHdvIHBpZWNlcyBvZiBpbmZvIGRlZmluZSBhIGxpbmUsIGJhc2Vwb2ludCAkXHZlY3t4fV8wJCBhbmQgZGlyZWN0aW9uDQp2ZWN0b3IgJFx2ZWN7dn0kDQoNCkFsbCBwb2ludHMgcmVwcmVzZW50ZWQgYnkgZm9ybSAkXHZlY3t4fSh0KSA9IFx2ZWN7eH1fMCArIHRcdmVje3Z9JA0KIHdpdGggaW5maW5pdGVseSBtYW55IGJhc2Vwb2ludHMgYW5kIGRpcmVjdGlvbiB2ZWN0b3JzLg0KIA0KIEdpdmUgJHkgPSBteCArdiQgbSBpcyBzbG9wZSwgYiBpcyB5IGludGVyY2VwdC4gRm9yIGV2ZXJ5IG1vdmVtZW50IGluIHRoZQ0KIHggZGlyZWN0aW9uIHRoZXJlIGFyZSBtIG1vdmVtZW50cyBpbiB0aGUgeSBkaXJlY3Rpb24uDQogDQogTW9yZSBnZW5lcmFsIGZvcm0gaXMgJEFfeCArIEJfeSA9IGskDQogDQpUbyByZWNvbnN0cnVjdCBhIGJhc2Vwb2ludDogDQoNCmlmICRCIFxuZSAwJCB0YWtlICR4PTAkIHRvIGdldCAkeSA9IFxmcmFje2t9e0J9JA0KaWYgJEEgXG5lIDAkIHRha2UgJHk9MCQgdG8gZ2V0ICR4ID0gXGZyYWN7a317QX0kDQo=</div>
 
 
 
