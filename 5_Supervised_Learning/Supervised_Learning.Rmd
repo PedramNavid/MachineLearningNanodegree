@@ -1,0 +1,31 @@
+---
+title: "Supervised Learning"
+output: html_notebook
+---
+
+# Linear Regression
+
+## Parametric Regression
+
+Model data using a set of parameters using polynomial equations.
+Data is thrown out after model made. 
+
+## KNN - K Nearest Neighbour
+
+Keeps data and uses data during model prediction. 
+Find k-nearest points to the x value to estimate y. 
+Kernel regression is similar, however in KR we weight the contributes
+of each of the data points according to how distant they are, while in KNN
+each point gets the same weight. 
+
+## Decision Trees
+
+Inductive bias: given a bunch of decision trees, which decision trees would
+ID3 prefer over others. More likey to produce good splits at the top. 
+Prefers correct over incorrect. 
+Tends to prefer shorter trees to longer trees
+
+Restriction bias: set of hypothesis we will use: 
+only considering the functions that can be modeled with a tree
+
+Preference bias: what sorts of hypothesis from the hypothesis set do we prefer
